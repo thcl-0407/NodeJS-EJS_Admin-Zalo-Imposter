@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Imposter System</title>
+    <style>
+        * {
+            font-family: Helvetica, Arial, Tahoma, sans-serif;
+        }
+
+        body {
+            background-color: #0048ad;
+        }
+
+        div.container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        #txtUsername,
+        #txtPassword {
+            padding: 8pt 0pt 8pt 0pt;
+            margin-bottom: 20pt;
+            width: 180pt;
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #c2c2c2;
+            outline: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        #btnDangNhap {
+            font-size: 0.9rem;
+            font-weight: 520;
+            color: #fff;
+            padding: 8pt 20pt 8pt 20pt;
+            background-color: #016AFF;
+            border-radius: 20pt;
+            border: none;
+            box-shadow: 2pt 2pt 2pt lightgrey;
+        }
+
+        #btnDangNhap:hover {
+            background-color: #0048ad;
+            outline: none;
+        }
+
+        #frmDangNhap {
+            padding: 10pt 15pt 20pt 15pt;
+            text-align: center;
+            background: #fff;
+            border-radius: 20pt;
+            border: none;
+            box-shadow: 1pt 1pt 2pt gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="/login" method="POST" id="frmDangNhap">
+            <h2 style="color: #353535; margin-bottom: 20pt;">Imposter System</h2>
+            <i class="fa fa-user"></i><span>&nbsp;&nbsp;</span>
+            <input name="username" type="text" id="txtUsername" placeholder="Tên đăng nhập">
+            <br />
+            <i class="fa fa-unlock-alt"></i><span>&nbsp;&nbsp;</span>
+            <input name="password" type="password" id="txtPassword" placeholder="Mật khẩu">
+            <br />
+            <button type="submit" id="btnDangNhap" style="margin-top: 10pt; margin-bottom: 10pt;">Đăng Nhập</button>
+        </form>
+    </div>
+</body>
+</html>
