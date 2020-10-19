@@ -1,13 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <style>
+        * {
+            padding: 0;
+            margin: auto 0;
+        }
+
+        .container-fluid {
+            padding: 0;
+        }
+
+        .container-fluid:nth-child(2) {
+            background: url('https://imposter-zalo.s3-ap-southeast-1.amazonaws.com/bg.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        body {
+            background-color: #343A40;
+        }
+
+        #btnDangXuat {
+            background-color: transparent;
+            color: #c6c6c6;
+            border: none;
+        }
+
+        .box-center {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            height: 68vh;
+            padding-right: 12em;
+        }
+
+        #txtSayHello01,
+        #txtSayHello03 {
+            color: #505050;
+            font-weight: 600;
+            font-size: 5em;
+            display: block;
+            animation-name: typing_01;
+            animation-duration: 3s;
+            overflow: hidden;
+            white-space: nowrap;
+            height: 100%;
+        }
+
+        #txtSayHello04{
+            display: block;
+            animation-name: typing_02;
+            animation-duration: 2s;
+            overflow: hidden;
+            white-space: nowrap;
+            height: 100%;
+        }
+
+        #txtSayHello02 {
+            color: #505050;
+            font-size: 3em;
+        }
+
+        @keyframes typing_01 {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes typing_02 {
+            0% {
+                transform: translateY(120px);
+            }
+            
+            100% {
+                width: 100%;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method="POST" action="/logout">
-        <button type="submit">Đăng Xuất</button>
-    </form>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="border-bottom: 1px solid #808080;">
+            <a href="/home"><img src="https://imposter-zalo.s3-ap-southeast-1.amazonaws.com/logo.png" class="nav-brand"
+                    style="width: 5rem;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/usermanage">Quản Lý Người Dùng</a>
+                    </li>
+                </ul>
+
+                <form method="POST" action="/logout" class="form-inline my-2 my-lg-0">
+                    <button type="submit" id="btnDangXuat">Đăng Xuất</button>
+                </form>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="box-center">
+                <div style="text-align: end;">
+                    <span id="txtSayHello01">Welcome</span>
+                    <br />
+                    <span id="txtSayHello02">to</span>
+                    <br />
+                    <span id="txtSayHello03">Imposter System</span>
+                    <div>
+                        <h5 id="txtSayHello04" style="margin-top: 10pt; color: #505050;">Copyright by Imposter Team 2020</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
