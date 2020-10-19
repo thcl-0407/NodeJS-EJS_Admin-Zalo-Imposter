@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <style>
+        * {
+            padding: 0;
+            margin: auto 0;
+        }
+
+        .container-fluid {
+            padding: 0;
+        }
+
+        #btnDangXuat {
+            background-color: transparent;
+            color: #e2e2e2;
+            border: none;
+        }
+
+        #container-controller{
+            padding-top: 20pt;
+            padding-bottom: 20pt;
+        }
+
+        #btnThemNguoiDung, #btnTimKiem{
+            border-radius: 0.5rem;
+            padding: 8pt 10pt 8pt 10pt;
+            border: none;
+            outline: none;
+            background: #016aff;
+            color: #fff;
+            font-weight: 550;
+        }
+
+        #etxtTimKiem{
+            padding: 8pt 10pt 8pt 10pt;
+            width: 68%;
+            outline: none;
+            border: 1px solid lightgray;
+            border-radius: 0.5rem;
+        }
+
+        table#tbldsNguoiDung>thead>tr>th{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="border-bottom: 1px solid #808080;">
+            <a href="/home"><img src="https://imposter-zalo.s3-ap-southeast-1.amazonaws.com/logo.png" class="nav-brand"
+                    style="width: 5rem;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" style="padding-left: 10pt;">
+                        <a class="nav-link" style="color: #e2e2e2;" href="/home/usermanage">Quản Lý Người Dùng</a>
+                    </li>
+                </ul>
+
+                <form method="POST" action="/logout" class="form-inline my-2 my-lg-0">
+                    <button type="submit" id="btnDangXuat">Đăng Xuất</button>
+                </form>
+            </div>
+        </nav>
+
+        <div class="container" style="padding: 0;">
+            <div class="row" id="container-controller">
+                <div class="col-sm-3" style="padding: 0;">
+                    <button id="btnThemNguoiDung">+ Thêm Người Dùng</button>
+                </div>
+                <div class="col-sm-5"></div>
+                <div class="col-sm-4" style="padding: 0; text-align: end;">
+                    <form method="POST">
+                        <input type="text" placeholder="Nhập Số Điện Thoại Cần Tìm" id="etxtTimKiem">
+                        <button id="btnTimKiem">Tìm</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row"> 
+                <table class="table" id="tbldsNguoiDung">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Họ Tên</th>
+                        <th scope="col">Ngày Sinh</th>
+                        <th scope="col">Giới Tính</th>
+                        <th scope="col">Số Điện Thoại</th>
+                        <th scope="col">Trạng Thái</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
