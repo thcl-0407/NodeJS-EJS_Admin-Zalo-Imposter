@@ -26,7 +26,7 @@ function CheckPassport(){
     })
     
     passport.deserializeUser((name, done)=>{
-        admin.GetUserByName(name, (results)=>{
+        admin.GetAdminByName(name, (results)=>{
             if(!results){
                 done(null, null)
             }else{

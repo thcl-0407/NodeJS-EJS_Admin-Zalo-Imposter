@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,8 +6,8 @@
     <title>Administrator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
@@ -30,14 +29,16 @@
             background-color: transparent;
             color: #e2e2e2;
             border: none;
+            outline: none;
         }
 
-        #container-controller{
+        #container-controller {
             padding-top: 20pt;
             padding-bottom: 20pt;
         }
 
-        #btnThemNguoiDung, #btnTimKiem{
+        #btnThemNguoiDung,
+        #btnTimKiem {
             border-radius: 0.5rem;
             padding: 8pt 10pt 8pt 10pt;
             border: none;
@@ -47,7 +48,8 @@
             font-weight: 550;
         }
 
-        #etxtTimKiem{
+        #etxtTimKiem,
+        #dropDownStatus {
             padding: 8pt 10pt 8pt 10pt;
             width: 68%;
             outline: none;
@@ -55,8 +57,67 @@
             border-radius: 0.5rem;
         }
 
-        table#tbldsNguoiDung>thead>tr>th{
+        table#tbldsNguoiDung>thead>tr>th {
             text-align: center;
+        }
+
+        table#tbldsNguoiDung>tbody>tr>td {
+            text-align: center;
+        }
+
+        table#tbldsNguoiDung>tbody>tr>td:nth-child(6) {
+            gap: normal;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            border: none;
+            border-top: 1px solid #DEE2E6;
+        }
+
+        #etxtHoTen,
+        #etxtSDT,
+        #etxtMatKhau {
+            width: 80%;
+            margin-bottom: 20pt;
+            border: none;
+            border-bottom: 1px solid #c2c2c2;
+            padding: 10pt 0 5pt 0;
+            outline: none;
+        }
+
+        .toggle_button {
+            position: relative;
+            height: 30px;
+            width: 60px;
+            outline: none;
+            -webkit-appearance: none;
+            background: #afafaf;
+            border: none;
+            border-radius: 20pt;
+        }
+
+        .toggle_button:checked {
+            border: none;
+            background: #12bb7a;
+        }
+
+        .toggle_button::before {
+            position: absolute;
+            background: #fff;
+            content: '';
+            width: 30px;
+            height: 30px;
+            outline: none;
+            border: 1px solid #b8b8b8;
+            border-radius: 20pt;
+            top: 0;
+            left: 0;
+            transition: 0.3s;
+            transform: scale(1.01);
+        }
+
+        .toggle_button:checked:before {
+            left: 30px;
         }
     </style>
 </head>
@@ -87,34 +148,142 @@
         <div class="container" style="padding: 0;">
             <div class="row" id="container-controller">
                 <div class="col-sm-3" style="padding: 0;">
-                    <button id="btnThemNguoiDung">+ Thêm Người Dùng</button>
+                    <button type="button" id="btnThemNguoiDung" data-toggle="modal" data-target="#modalThemNguoiDung">+
+                        Thêm Người Dùng</button>
                 </div>
-                <div class="col-sm-5"></div>
+                <div class="col-sm-5" style="text-align: end;"></div>
                 <div class="col-sm-4" style="padding: 0; text-align: end;">
                     <form method="POST">
-                        <input type="text" placeholder="Nhập Số Điện Thoại Cần Tìm" id="etxtTimKiem">
+                        <input type="tel" placeholder="Nhập Số Điện Thoại Cần Tìm" id="etxtTimKiem" required
+                            pattern="^0[1-9][0-9]{8}$">
                         <button id="btnTimKiem">Tìm</button>
                     </form>
                 </div>
             </div>
-            <div class="row"> 
-                <table class="table" id="tbldsNguoiDung">
+            <div class="row">
+                <table class="table table-hover table-bordered" id="tbldsNguoiDung">
                     <thead class="thead-dark">
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Họ Tên</th>
-                        <th scope="col">Ngày Sinh</th>
-                        <th scope="col">Giới Tính</th>
-                        <th scope="col">Số Điện Thoại</th>
-                        <th scope="col">Trạng Thái</th>
-                      </tr>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Họ Tên</th>
+                            <th scope="col">Ngày Sinh</th>
+                            <th scope="col">Giới Tính</th>
+                            <th scope="col">Số Điện Thoại</th>
+                            <th scope="col">Trạng Thái</th>
+                            <th scope="col"></th>
+                        </tr>
                     </thead>
                     <tbody>
+                        <% users.forEach((user)=>{ %>
+                        <tr>
+                            <td class="manguoidung"><%- user.MaNguoiDung %></td>
+                            <td class="hoten"><%- user.HoTen %></td>
+                            <td class="ngaysinh"><%- user.NgaySinh %></td>
+                            <td class="gioitinh"><%- user.GioiTinh %></td>
+                            <td class="sodienthoai"><%- user.SoDienThoai %></td>
+                            <td class="status"><% if(user.Status == 1){%>
+                                <input type="checkbox" class="toggle_button" checked><span class="txtStatus"
+                                    style="color: #12bb7a; font-weight: 550; padding-left: 5pt; width: 6rem;">Hoạt
+                                    Động</span>
+                                <%}%>
+                                        <%if(user.Status == 0){%>
+                                <input type="checkbox" class="toggle_button"><span class="txtStatus"
+                                    style="color: red; font-weight: 550; padding-left: 5pt; width: 6rem;">Khoá</span>
+                                <%}%>
+                                </td>
+                            <td>
+                                <button style="border-radius: 0.5rem; color: #fff;"  class="btn btn-danger" id="btnDeleteNguoiDung"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xoá</button>
+                            </td>
+                                </tr>                                   
+                             <% }) %>
                     </tbody>
-                  </table>
+                </table>
             </div>
         </div>
     </div>
+
+    <!-- Modal Thêm Người Dùng -->
+    <div class="modal fade" id="modalThemNguoiDung" aria-hidden="true" style="padding: 0;">
+        <div class="modal-dialog">
+            <div class="modal-content" style="text-align: center; padding-top: 0pt; border-radius: 10pt;">
+                <div
+                    style="border-radius: 10pt 10pt 0 0; display: flex; justify-self: end; align-items: center;  margin-bottom: 20pt; background-color: #016aff; padding: 6px 0 6px 0;">
+                    <div style="float: left; width: 100%; padding-top: 5pt;">
+                        <h5 style="color: #f3f3f3; font-size: 14pt;">Thêm Người Dùng</h5>
+                    </div>
+                </div>
+                <form method="POST" action="/home/usermanage/adduser" id="frmThemNguoiDung">
+                    <i class="fa fa-user"></i><span>&nbsp;&nbsp;</span>
+                    <input type="text" placeholder="Nhập Họ Tên Người Dùng" name="fullname" id="etxtHoTen" required>
+                    <br />
+                    <i class="fa fa-phone"></i><span>&nbsp;&nbsp;</span>
+                    <input type="tel" placeholder="Nhập Số Điện Thoại" name="phone" pattern="^0[1-9][0-9]{8}$"
+                        id="etxtSDT" required>
+                    <br />
+                    <i class="fa fa-lock"></i><span>&nbsp;&nbsp;</span>
+                    <input type="password" placeholder="Nhập Mật Khẩu" minlength="6" name="password" id="etxtMatKhau"
+                        required>
+                    <br />
+                    <div style="text-align: end; margin-top: 10pt; margin-bottom: 30pt; padding-right: 25pt;">
+                        <button style="outline: none; border-radius: 0.5rem; padding-right:15pt; padding-left: 15pt;"
+                            class="btn btn-danger" type="button" style="outline: none;" data-dismiss="modal"
+                            aria-label="Close">Huỷ</button>
+                        <button id="btnLuu" type="submit" class="btn btn-primary"
+                            style="border-radius: 0.5rem; width: 120px; padding: 5pt; outline: none;">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#tbldsNguoiDung tbody').on('click', '.toggle_button', (e) => {
+            var status = $(e.target).closest('tr').show().find('.status').find('.toggle_button')
+                .prop('checked');
+            var MaNguoiDung = $(e.target).closest('tr').show().find('.manguoidung').text();
+
+            var data = {
+                MaNguoiDung: MaNguoiDung,
+                Status: status
+            }
+
+            var txtStatus = $(e.target).closest('tr').show().find('.status').find('.txtStatus');
+
+            if (status) {
+                ChangeStatus(MaNguoiDung, true, (result) => {
+                    if (result) {
+                        txtStatus.text('Hoạt Động');
+                        txtStatus.css('color',"#12bb7a");
+                    }
+                })
+            } else {
+                ChangeStatus(MaNguoiDung, false, (result) => {
+                    if (result) {
+                        txtStatus.text('Khoá');
+                        txtStatus.css('color',"red");
+                    }
+                })
+            }
+        });
+
+
+        function ChangeStatus(user_id, status, callback) {
+            var data = {
+                MaNguoiDung: user_id,
+                Status: status
+            }
+
+            $.ajax({
+                url: "/home/usermanage/changestatus",
+                type: "PATCH",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    callback(res)
+                },
+            });
+        }
+    </script>
 </body>
 
 </html>

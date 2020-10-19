@@ -12,7 +12,10 @@
         }
 
         body {
-            background-color: #0048ad;
+            background: url("https://imposter-zalo.s3-ap-southeast-1.amazonaws.com/355321.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
         }
 
         div.container {
@@ -26,13 +29,20 @@
         #txtPassword {
             padding: 8pt 0pt 8pt 0pt;
             margin-bottom: 20pt;
-            width: 180pt;
+            width: 160pt;
             background-color: transparent;
             border: none;
-            border-bottom: 1px solid #c2c2c2;
+            border-bottom: 1.5px solid #353535;
             outline: none;
-            font-weight: 500;
+            font-weight: 550;
+            color: #353535;
             font-size: 0.9rem;
+        }
+
+        #txtUsername::placeholder,
+        #txtPassword::placeholder{
+            color: #505050;
+            font-weight: 550;
         }
 
         #btnDangNhap {
@@ -41,10 +51,10 @@
             color: #fff;
             padding: 8pt 20pt 8pt 20pt;
             background-color: #016AFF;
-            border-radius: 20pt;
+            border-radius: 0.8rem;
+            font-weight: 550;
             border: none;
             outline: none;
-            box-shadow: 2pt 2pt 2pt lightgrey;
         }
 
         #btnDangNhap:hover {
@@ -53,12 +63,21 @@
         }
 
         #frmDangNhap {
-            padding: 10pt 15pt 20pt 15pt;
+            display: block;
+            padding: 10pt 35pt 20pt 30pt;
             text-align: center;
-            background: #fff;
-            border-radius: 20pt;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 1rem;
             border: none;
-            box-shadow: 1pt 1pt 2pt gray;
+            animation-name: fade;
+            animation-duration: 1s;
+        }
+
+        @keyframes fade {
+            0%{
+                transform: scale(0.6);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -66,7 +85,7 @@
 <body>
     <div class="container">
         <form action="/login" method="POST" id="frmDangNhap">
-            <h2 style="color: #353535; margin-bottom: 20pt;">Imposter System</h2>
+            <h2 style="color: #202020; margin-bottom: 20pt;">Imposter System</h2>
             <i class="fa fa-user"></i><span>&nbsp;&nbsp;</span>
             <input name="username" type="text" id="txtUsername" placeholder="Tên đăng nhập" required>
             <br />

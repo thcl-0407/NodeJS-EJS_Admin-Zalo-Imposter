@@ -3,7 +3,7 @@ const mssql = require('../dbConnect.js')
 const poolConnection = mssql.poolConnection
 const pool = mssql.pool
 
-async function CreateUser(user, callback) {
+async function CreateAdministrator(user, callback) {
     await poolConnection;
     try {
         const request = pool.request();
@@ -47,7 +47,7 @@ async function Login(user, callback) {
     }
 }
 
-async function GetUserByName(name, callback) {
+async function GetAdminByName(name, callback) {
     await poolConnection;
     try {
         const request = pool.request();
@@ -61,5 +61,56 @@ async function GetUserByName(name, callback) {
     }
 }
 
+async function GetNguoiDung(callback) {
+    await poolConnection;
+    try {
+        const request = pool.request();
+        const result = await request
+        .query('SELECT * FROM NguoiDung')
+        callback(result.recordset)
+    } catch (err) {
+        console.error('DB error', err);
+        callback(false)
+    }
+}
 
-module.exports = {CreateUser, Login, GetUserByName}
+async function CreateUser(user ,callback){
+    await poolConnection;
+    try {
+        const request = pool.request();
+        const result = await request
+        .input('HoTen', mssql.sql.NVarChar, user.HoTen)
+        .input('SoDienThoai', mssql.sql.NVarChar, user.SoDienThoai)
+        .input('Password', mssql.sql.NVarChar, bcrypt.hashSync(user.MatKhau, bcrypt.genSaltSync(10)))
+        .query('INSERT INTO NguoiDung(HoTen, SoDienThoai, Password) VALUES(@HoTen, @SoDienThoai, @Password)')
+        if(result.rowsAffected[0] == 1){
+            callback(true)
+        }else{
+            callback(false)
+        }   
+    } catch (err) {
+        console.error('DB error', err);
+        callback(false)
+    }
+}
+
+async function UpdateStatusUser(user ,callback){
+    await poolConnection;
+    try {
+        const request = pool.request();
+        const result = await request
+        .input('Status', mssql.sql.Bit, user.Status)
+        .input('MaNguoiDung', mssql.sql.NVarChar, user.MaNguoiDung)
+        .query('UPDATE dbo.NguoiDung SET Status = @Status WHERE MaNguoiDung = @MaNguoiDung')
+        if(result.rowsAffected[0] == 1){
+            callback(true)
+        }else{
+            callback(false)
+        }   
+    } catch (err) {
+        console.error('DB error', err);
+        callback(false)
+    }
+}
+
+module.exports = {CreateAdministrator, CreateUser, Login, GetAdminByName, GetNguoiDung, UpdateStatusUser}
