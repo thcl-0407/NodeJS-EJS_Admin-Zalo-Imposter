@@ -349,48 +349,50 @@
                 } else {
                     $('#tbldsNguoiDung tbody').empty()
 
-                    var row = "<tr>";
+                    result.forEach(element => {
+                        var row = "<tr>";
 
-                    if (result[0].MaNguoiDung != null) {
-                        row += "<td class='manguoidung'>" + result[0].MaNguoiDung + "</td>";
-                    } else {
-                        row += "<td class='manguoidung'>" + "" + "</td>";
-                    }
-                    if (result[0].HoTen != null) {
-                        row += "<td class='hoten'>" + result[0].HoTen + "</td>";
-                    } else {
-                        row += "<td class='hoten'>" + "" + "</td>";
-                    }
-                    if (result[0].NgaySinh != null) {
-                        row += "<td class='ngaysinh'>" + result[0].NgaySinh + "</td>";
-                    } else {
-                        row += "<td class='ngaysinh'>" + "" + "</td>";
-                    }
-                    if (result[0].GioiTinh != null) {
-                        row += "<td class='gioitinh'>" + result[0].GioiTinh + "</td>";
-                    } else {
-                        row += "<td class='gioitinh'>" + "" + "</td>";
-                    }
-                    if (result[0].SoDienThoai != null) {
-                        row += "<td class='sodienthoai'>" + result[0].SoDienThoai + "</td>";
-                    } else {
-                        row += "<td class='sodienthoai'>" + "" + "</td>";
-                    }
+                        if (element.MaNguoiDung != null) {
+                            row += "<td class='manguoidung'>" + element.MaNguoiDung + "</td>";
+                        } else {
+                            row += "<td class='manguoidung'>" + "" + "</td>";
+                        }
+                        if (element.HoTen != null) {
+                            row += "<td class='hoten'>" + element.HoTen + "</td>";
+                        } else {
+                            row += "<td class='hoten'>" + "" + "</td>";
+                        }
+                        if (element.NgaySinh != null) {
+                            row += "<td class='ngaysinh'>" + element.NgaySinh + "</td>";
+                        } else {
+                            row += "<td class='ngaysinh'>" + "" + "</td>";
+                        }
+                        if (element.GioiTinh != null) {
+                            row += "<td class='gioitinh'>" + element.GioiTinh + "</td>";
+                        } else {
+                            row += "<td class='gioitinh'>" + "" + "</td>";
+                        }
+                        if (element.SoDienThoai != null) {
+                            row += "<td class='sodienthoai'>" + element.SoDienThoai + "</td>";
+                        } else {
+                            row += "<td class='sodienthoai'>" + "" + "</td>";
+                        }
 
-                    if (result[0].Status == 0) {
+                        if (element.Status == 0) {
+                            row +=
+                                "<td class='status'><input type='checkbox' class='toggle_button'><span class='txtStatus' style='color: red; font-weight: 550; padding-left: 5pt; width: 6rem;'>Khoá</span></td>";
+                        }
+                        if (element.Status == 1) {
+                            row +=
+                                "<td class='status'><input type='checkbox' class='toggle_button' checked><span class='txtStatus' style='color: #12bb7a; font-weight: 550; padding-left: 5pt; width: 6rem;'>Hoạt Động</span></td>";
+                        }
                         row +=
-                            "<td class='status'><input type='checkbox' class='toggle_button'><span class='txtStatus' style='color: red; font-weight: 550; padding-left: 5pt; width: 6rem;'>Khoá</span></td>";
-                    }
-                    if (result[0].Status == 1) {
-                        row +=
-                            "<td class='status'><input type='checkbox' class='toggle_button' checked><span class='txtStatus' style='color: #12bb7a; font-weight: 550; padding-left: 5pt; width: 6rem;'>Hoạt Động</span></td>";
-                    }
-                    row +=
-                        "<td><button style='outline: none; border-radius: 0.5rem; color: #fff; background-color: #C82333; border: none; padding: 8px;' class='btnDeleteNguoiDung'><i class='fa fa-trash-o'></i>&nbsp;&nbsp;Xoá</button></td>";
+                            "<td><button style='outline: none; border-radius: 0.5rem; color: #fff; background-color: #C82333; border: none; padding: 8px;' class='btnDeleteNguoiDung'><i class='fa fa-trash-o'></i>&nbsp;&nbsp;Xoá</button></td>";
 
-                    row += "</tr>";
+                        row += "</tr>";
 
-                    $('#tbldsNguoiDung tbody').append(row)
+                        $('#tbldsNguoiDung tbody').append(row)
+                    });
                 }
             })
         })
@@ -419,17 +421,19 @@
                 e.preventDefault()
             })
 
+            let regex_checkphone = new RegExp('^0[1-9][0-9]{8}$');
+
             var HoTen = $('#etxtHoTen').val()
             var SoDienThoai = $('#etxtSDT').val()
             var MatKhau = $('#etxtMatKhau').val()
 
-            if (HoTen == "") {
+            if (HoTen.length < 3) {
                 return;
             }
-            if (SoDienThoai == "") {
+            if (!regex_checkphone.test(SoDienThoai)) {
                 return;
             }
-            if (MatKhau == "") {
+            if (MatKhau.length < 6) {
                 return;
             }
 
