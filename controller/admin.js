@@ -79,8 +79,8 @@ async function GetNguoiDungbySDT(sdt ,callback) {
     try {
         const request = pool.request();
         const result = await request
-        .input('SoDienThoai', mssql.sql.NVarChar, sdt)
-        .query('SELECT * FROM NguoiDung WHERE SoDienThoai = @SoDienThoai')
+        .input('SoDienThoai', mssql.sql.NVarChar, ("%" + sdt + "%"))
+        .query("SELECT * FROM NguoiDung WHERE SoDienThoai LIKE @SoDienThoai")
         callback(result.recordset)
     } catch (err) {
         console.error('DB error', err);

@@ -48,6 +48,16 @@
             font-weight: 550;
         }
 
+        #btnRefresh {
+            border-radius: 0.5rem;
+            padding: 11pt;
+            border: none;
+            background: #343A40;
+            color: #fff;
+            font-weight: 400;
+            outline: none;
+        }
+
         #etxtTimKiem,
         #dropDownStatus {
             padding: 8pt 10pt 8pt 10pt;
@@ -148,14 +158,16 @@
         <div class="container" style="padding: 0;">
             <div class="row" id="container-controller">
                 <div class="col-sm-3" style="padding: 0;">
+                    <button id="btnRefresh" type="button"><i class="fa fa-refresh"></i></button>
                     <button type="button" id="btnThemNguoiDung" data-toggle="modal" data-target="#modalThemNguoiDung">+
                         Thêm Người Dùng</button>
                 </div>
-                <div class="col-sm-5" style="text-align: end;"></div>
+                <div class="col-sm-5" style="text-align: end;">
+                </div>
                 <div class="col-sm-4" style="padding: 0; text-align: end;">
-                    <form method="POST" id="frmTimKiem">
+                    <form method="POST" id="frmTimKiem" style="width: 100%;">
                         <input type="tel" placeholder="Nhập Số Điện Thoại Cần Tìm" id="etxtTimKiem" required
-                            pattern="^0[1-9][0-9]{8}$">
+                            pattern="^[0-9]+$" style="width: 80%;">
                         <button type="submit" id="btnTimKiem">Tìm</button>
                     </form>
                 </div>
@@ -247,7 +259,7 @@
                         <h4 style="color: #f3f3f3; font-size: 16pt;" id="title_confirm"></h4>
                     </div>
                 </div>
-                <div class="modal-body" style="text-align: center;">
+                <div class="modal-body" style="text-align: start;">
                     <h5 id="message_confirm"></h5>
                 </div>
                 <div class="modal-footer">
@@ -271,7 +283,7 @@
                         <h4 style="color: #f3f3f3; font-size: 16pt;" id="title_confirm_delete"></h4>
                     </div>
                 </div>
-                <div class="modal-body" style="text-align: center;">
+                <div class="modal-body" style="text-align: start;">
                     <h5 id="message_confirm_delete"></h5>
                 </div>
                 <div class="modal-footer">
@@ -308,6 +320,13 @@
         </div>
     </div>
     <script>
+        //Refresh Trang Web
+        $('#btnRefresh').on('click', () => {
+            window.location = '/home/usermanage'
+        })
+
+
+        //Tìm Kiếm Số Điện Thoại
         $('#btnTimKiem').on('click', () => {
             //Chặn Submit
             $('#frmTimKiem').on('submit', (e) => {
@@ -331,11 +350,32 @@
                     $('#tbldsNguoiDung tbody').empty()
 
                     var row = "<tr>";
-                    row += "<td class='manguoidung'>" + result[0].MaNguoiDung + "</td>";
-                    row += "<td class='hoten'>" + result[0].HoTen + "</td>";
-                    row += "<td class='ngaysinh'>" + result[0].NgaySinh + "</td>";
-                    row += "<td class='gioitinh'>" + result[0].GioiTinh + "</td>";
-                    row += "<td class='sodienthoai'>" + result[0].SoDienThoai + "</td>";
+
+                    if (result[0].MaNguoiDung != null) {
+                        row += "<td class='manguoidung'>" + result[0].MaNguoiDung + "</td>";
+                    } else {
+                        row += "<td class='manguoidung'>" + "" + "</td>";
+                    }
+                    if (result[0].HoTen != null) {
+                        row += "<td class='hoten'>" + result[0].HoTen + "</td>";
+                    } else {
+                        row += "<td class='hoten'>" + "" + "</td>";
+                    }
+                    if (result[0].NgaySinh != null) {
+                        row += "<td class='ngaysinh'>" + result[0].NgaySinh + "</td>";
+                    } else {
+                        row += "<td class='ngaysinh'>" + "" + "</td>";
+                    }
+                    if (result[0].GioiTinh != null) {
+                        row += "<td class='gioitinh'>" + result[0].GioiTinh + "</td>";
+                    } else {
+                        row += "<td class='gioitinh'>" + "" + "</td>";
+                    }
+                    if (result[0].SoDienThoai != null) {
+                        row += "<td class='sodienthoai'>" + result[0].SoDienThoai + "</td>";
+                    } else {
+                        row += "<td class='sodienthoai'>" + "" + "</td>";
+                    }
 
                     if (result[0].Status == 0) {
                         row +=
@@ -459,7 +499,7 @@
             } else {
                 btnToggle.prop("checked", true)
                 $('#title_confirm').text('Khoá Tài Khoản')
-                $('#message_confirm').text('Bạn có chắc muốn khoá tài khoản đang hoạt động này không ?')
+                $('#message_confirm').text('Bạn có chắc muốn khoá tài khoản này không ?')
             }
 
             $('#btnXacNhan').on('click', () => {
