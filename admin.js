@@ -70,6 +70,26 @@ app.get('/home/usermanage', (req, res)=>{
                         users: null
                     }) 
                 }else{
+                   results.forEach(result => {
+                        if(result.NgaySinh != null){
+                            let date = JSON.stringify(result.NgaySinh)
+                            date = date.slice(1,11).split('-')
+                            let ngay = date[2]
+                            let thang = date[1]
+                            let nam = date[0]
+
+                            result.NgaySinh = ngay + '-' + thang +'-' + nam
+                        }
+
+                        if(result.GioiTinh !=null ){
+                            if(result.GioiTinh){
+                                result.GioiTinh = "Nam"
+                            }else{
+                                result.GioiTinh = "Nữ"
+                            }
+                        }
+                    });
+
                     res.render('usermanage', {
                         users: results
                     })
@@ -81,21 +101,74 @@ app.get('/home/usermanage', (req, res)=>{
     }
 })
 
+
+//Get Danh Sách Người Dùng Bằng Số Điện Thoại
+app.post('/home/usermanage/findphone', (req, res)=>{
+    if(req.isAuthenticated()){
+        admin.GetNguoiDungbySDT(req.body.SoDienThoai,
+            (results)=>{
+                if(!results){
+                    res.send(false)
+                }else{
+                   results.forEach(result => {
+                        if(result.NgaySinh != null){
+                            let date = JSON.stringify(result.NgaySinh)
+                            date = date.slice(1,11).split('-')
+                            let ngay = date[2]
+                            let thang = date[1]
+                            let nam = date[0]
+
+                            result.NgaySinh = ngay + '-' + thang +'-' + nam
+                        }
+
+                        if(result.GioiTinh !=null ){
+                            if(result.GioiTinh){
+                                result.GioiTinh = "Nam"
+                            }else{
+                                result.GioiTinh = "Nữ"
+                            }
+                        }
+                    });
+
+                    res.send(results)
+                }    
+            }
+        )
+    }else{
+        res.redirect('/login')
+    }
+})
+
+
 //Thêm Người Dùng
 app.post('/home/usermanage/adduser', (req, res)=>{
     if(req.isAuthenticated()){
         var user = {
-            HoTen: req.body.fullname,
-            SoDienThoai: req.body.phone,
-            MatKhau: req.body.password
+            HoTen: req.body.HoTen,
+            SoDienThoai: req.body.SoDienThoai,
+            MatKhau: req.body.MatKhau
         }
 
         if(user != null){
-            admin.CreateUser(user, (status)=>{
-                if(status){
-                    res.redirect('/home/usermanage')
+            admin.GetNguoiDungbySDT(user.SoDienThoai, (result)=>{
+                if(!result){
+                    res.send(false)
                 }
-            })
+
+                if(result != null){
+                    if(result.length == 0){
+                        admin.CreateUser(user, (status)=>{
+                            if(status){
+                                res.send(true)
+                            }else{
+                                res.send(false)
+                            }
+                        })
+                    }else{
+                        res.send(false)
+                    }
+                }
+            })    
         }
     }
 })
@@ -110,6 +183,25 @@ app.patch('/home/usermanage/changestatus', (req, res)=>{
 
         if(user != null){
             admin.UpdateStatusUser(user, (status)=>{
+                if(status){
+                    res.send(true)
+                }else{
+                    res.send(false)
+                }
+            })
+        }
+    }
+})
+
+//Xoá Người Dùng
+app.post('/home/usermanage/deleteuser', (req, res)=>{
+    if(req.isAuthenticated()){
+        var user = {
+            MaNguoiDung: req.body.MaNguoiDung
+        }
+
+        if(user != null){
+            admin.DeleteUser(user, (status)=>{
                 if(status){
                     res.send(true)
                 }else{

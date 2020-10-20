@@ -153,10 +153,10 @@
                 </div>
                 <div class="col-sm-5" style="text-align: end;"></div>
                 <div class="col-sm-4" style="padding: 0; text-align: end;">
-                    <form method="POST">
+                    <form method="POST" id="frmTimKiem">
                         <input type="tel" placeholder="Nhập Số Điện Thoại Cần Tìm" id="etxtTimKiem" required
                             pattern="^0[1-9][0-9]{8}$">
-                        <button id="btnTimKiem">Tìm</button>
+                        <button type="submit" id="btnTimKiem">Tìm</button>
                     </form>
                 </div>
             </div>
@@ -179,7 +179,7 @@
                             <td class="manguoidung"><%- user.MaNguoiDung %></td>
                             <td class="hoten"><%- user.HoTen %></td>
                             <td class="ngaysinh"><%- user.NgaySinh %></td>
-                            <td class="gioitinh"><%- user.GioiTinh %></td>
+                            <td class="gioitinh"><%- user.GioiTinh%></td>
                             <td class="sodienthoai"><%- user.SoDienThoai %></td>
                             <td class="status"><% if(user.Status == 1){%>
                                 <input type="checkbox" class="toggle_button" checked><span class="txtStatus"
@@ -192,7 +192,7 @@
                                 <%}%>
                                 </td>
                             <td>
-                                <button style="border-radius: 0.5rem; color: #fff;"  class="btn btn-danger" id="btnDeleteNguoiDung"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xoá</button>
+                                <button style="outline: none; border-radius: 0.5rem; color: #fff; background-color: #C82333; border: none; padding: 8px;"  class="btnDeleteNguoiDung"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Xoá</button>
                             </td>
                                 </tr>                                   
                              <% }) %>
@@ -212,9 +212,10 @@
                         <h5 style="color: #f3f3f3; font-size: 14pt;">Thêm Người Dùng</h5>
                     </div>
                 </div>
-                <form method="POST" action="/home/usermanage/adduser" id="frmThemNguoiDung">
+                <form method="POST" id="frmThemNguoiDung">
                     <i class="fa fa-user"></i><span>&nbsp;&nbsp;</span>
-                    <input type="text" placeholder="Nhập Họ Tên Người Dùng" name="fullname" id="etxtHoTen" required>
+                    <input type="text" placeholder="Nhập Họ Tên Người Dùng" name="fullname" id="etxtHoTen" required
+                        minlength="3">
                     <br />
                     <i class="fa fa-phone"></i><span>&nbsp;&nbsp;</span>
                     <input type="tel" placeholder="Nhập Số Điện Thoại" name="phone" pattern="^0[1-9][0-9]{8}$"
@@ -228,43 +229,271 @@
                         <button style="outline: none; border-radius: 0.5rem; padding-right:15pt; padding-left: 15pt;"
                             class="btn btn-danger" type="button" style="outline: none;" data-dismiss="modal"
                             aria-label="Close">Huỷ</button>
-                        <button id="btnLuu" type="submit" class="btn btn-primary"
+                        <button type="submit" id="btnLuu" class="btn btn-primary"
                             style="border-radius: 0.5rem; width: 120px; padding: 5pt; outline: none;">Lưu</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- Modal Xác Nhận Trạng Thái Tài Khoản -->
+    <div class="modal fade" id="modalXacNhan" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="text-align: center; padding-top: 0pt; border-radius: 10pt;">
+                <div
+                    style="border-radius: 10pt 10pt 0 0; display: flex; justify-self: end; align-items: center;  margin-bottom: 20pt; background-color: #016aff; padding: 6px 0 6px 0;">
+                    <div style="float: left; width: 100%; padding-top: 5pt;">
+                        <h4 style="color: #f3f3f3; font-size: 16pt;" id="title_confirm"></h4>
+                    </div>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <h5 id="message_confirm"></h5>
+                </div>
+                <div class="modal-footer">
+                    <button style="width: 4rem; font-weight: 550;" id="btnHuy" type="button" class="btn btn-danger"
+                        data-dismiss="modal">Huỷ</button>
+                    <button style="width: 8rem; font-weight: 550;" id="btnXacNhan" type="button" class="btn btn-primary"
+                        data-dismiss="modal">Xác Nhận</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Xác Nhận Xoá -->
+    <div class="modal fade" id="modalXacNhanXoa" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="text-align: center; padding-top: 0pt; border-radius: 10pt;">
+                <div
+                    style="border-radius: 10pt 10pt 0 0; display: flex; justify-self: end; align-items: center;  margin-bottom: 20pt; background-color: #016aff; padding: 6px 0 6px 0;">
+                    <div style="float: left; width: 100%; padding-top: 5pt;">
+                        <h4 style="color: #f3f3f3; font-size: 16pt;" id="title_confirm_delete"></h4>
+                    </div>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <h5 id="message_confirm_delete"></h5>
+                </div>
+                <div class="modal-footer">
+                    <button style="width: 4rem; font-weight: 550;" id="btnHuy" type="button" class="btn btn-danger"
+                        data-dismiss="modal">Huỷ</button>
+                    <button style="width: 8rem; font-weight: 550;" id="btnXacNhanXoa" type="button"
+                        class="btn btn-primary" data-dismiss="modal">Xác Nhận</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal Thông Báo -->
+    <div class="modal fade" id="modalThongBao" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="text-align: center; padding-top: 0pt; border-radius: 10pt;">
+                <div
+                    style="border-radius: 10pt 10pt 0 0; display: flex; justify-self: end; align-items: center;  margin-bottom: 20pt; background-color: #016aff; padding: 6px 0 6px 0;">
+                    <div style="float: left; width: 100%; padding-top: 5pt;">
+                        <h4 style="color: #f3f3f3; font-size: 16pt;" id="title_notify"></h4>
+                    </div>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <h5 id="message_notify"></h5>
+                </div>
+                <div class="modal-footer" style="text-align: center;" id="container-button-ok">
+                    <button style="width: 6rem; font-weight: 550;" id="btnOK" type="button" class="btn btn-primary"
+                        data-dismiss="modal">OK</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <script>
+        $('#btnTimKiem').on('click', () => {
+            //Chặn Submit
+            $('#frmTimKiem').on('submit', (e) => {
+                e.preventDefault()
+            })
+
+            let soDienThoai = $('#etxtTimKiem').val()
+
+            if (soDienThoai == "") {
+                return;
+            }
+
+            GetNguoiDungbySDT(soDienThoai, (result) => {
+                if (result.length == 0) {
+                    $('#modalThongBao').modal()
+                    $('#title_notify').text('Tìm Kiếm Người Dùng')
+                    $('#message_notify').html(
+                        '<i style="color: red; font-size: 38pt; margin-bottom: 15pt;" class="fa fa-close"></i><h5 font-size: 32pt;">Không Tìm Thấy</h5>'
+                    )
+                } else {
+                    $('#tbldsNguoiDung tbody').empty()
+
+                    var row = "<tr>";
+                    row += "<td class='manguoidung'>" + result[0].MaNguoiDung + "</td>";
+                    row += "<td class='hoten'>" + result[0].HoTen + "</td>";
+                    row += "<td class='ngaysinh'>" + result[0].NgaySinh + "</td>";
+                    row += "<td class='gioitinh'>" + result[0].GioiTinh + "</td>";
+                    row += "<td class='sodienthoai'>" + result[0].SoDienThoai + "</td>";
+
+                    if (result[0].Status == 0) {
+                        row +=
+                            "<td class='status'><input type='checkbox' class='toggle_button'><span class='txtStatus' style='color: red; font-weight: 550; padding-left: 5pt; width: 6rem;'>Khoá</span></td>";
+                    }
+                    if (result[0].Status == 1) {
+                        row +=
+                            "<td class='status'><input type='checkbox' class='toggle_button' checked><span class='txtStatus' style='color: #12bb7a; font-weight: 550; padding-left: 5pt; width: 6rem;'>Hoạt Động</span></td>";
+                    }
+                    row +=
+                        "<td><button style='outline: none; border-radius: 0.5rem; color: #fff; background-color: #C82333; border: none; padding: 8px;' class='btnDeleteNguoiDung'><i class='fa fa-trash-o'></i>&nbsp;&nbsp;Xoá</button></td>";
+
+                    row += "</tr>";
+
+                    $('#tbldsNguoiDung tbody').append(row)
+                }
+            })
+        })
+
+        function GetNguoiDungbySDT(soDienThoai, callback) {
+            var data = {
+                SoDienThoai: soDienThoai,
+            }
+
+            $.ajax({
+                url: "/home/usermanage/findphone",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    callback(res)
+                },
+            });
+        }
+
+
+        $('#btnLuu').on('click', () => {
+            //Chặn Submit
+            $('#frmThemNguoiDung').on('submit', (e) => {
+                e.preventDefault()
+            })
+
+            var HoTen = $('#etxtHoTen').val()
+            var SoDienThoai = $('#etxtSDT').val()
+            var MatKhau = $('#etxtMatKhau').val()
+
+            if (HoTen == "") {
+                return;
+            }
+            if (SoDienThoai == "") {
+                return;
+            }
+            if (MatKhau == "") {
+                return;
+            }
+
+            AddNewUser(HoTen, SoDienThoai, MatKhau, (res) => {
+                if (res) {
+                    $('#container-button-ok').css('visibility', 'hidden')
+                    $('#modalThemNguoiDung').modal('hide')
+                    $('#modalThongBao').modal()
+                    $('#title_notify').text('Thêm Người Dùng')
+                    $('#message_notify').html(
+                        '<i style="color: #00d45e; font-size: 38pt; margin-bottom: 15pt;" class="fa fa-check-circle-o"></i><h5 font-size: 32pt;">Thành Công</h5>'
+                    )
+
+                    setTimeout(() => {
+                        window.location = '/home/usermanage'
+                    }, 1500)
+                } else {
+                    $('#modalThemNguoiDung').modal('hide')
+                    $('#modalThongBao').modal()
+                    $('#title_notify').text('Thêm Người Dùng')
+                    $('#message_notify').html(
+                        '<i style="color: red; font-size: 38pt; margin-bottom: 10pt;" class="fa fa-close"></i><h5 font-size: 20pt;">Số Điện Thoại Có Thể Đã Được Sử Dụng</h5>'
+                    )
+
+                    return false
+                }
+            })
+        })
+
+        function AddNewUser(hoTen, soDienThoai, matKhau, callback) {
+            var data = {
+                HoTen: hoTen,
+                SoDienThoai: soDienThoai,
+                MatKhau: matKhau
+            }
+
+            $.ajax({
+                url: "/home/usermanage/adduser",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    callback(res)
+                },
+            });
+        }
+
+        //Cập Nhật Trạng Thái Tài Khoản
         $('#tbldsNguoiDung tbody').on('click', '.toggle_button', (e) => {
+            var btnToggle = $(e.target).closest('tr').show().find('.status').find('.toggle_button')
             var status = $(e.target).closest('tr').show().find('.status').find('.toggle_button')
                 .prop('checked');
             var MaNguoiDung = $(e.target).closest('tr').show().find('.manguoidung').text();
+            var txtStatus = $(e.target).closest('tr').show().find('.status').find('.txtStatus');
 
             var data = {
                 MaNguoiDung: MaNguoiDung,
                 Status: status
             }
-
-            var txtStatus = $(e.target).closest('tr').show().find('.status').find('.txtStatus');
+            $('#modalXacNhan').modal()
 
             if (status) {
-                ChangeStatus(MaNguoiDung, true, (result) => {
-                    if (result) {
-                        txtStatus.text('Hoạt Động');
-                        txtStatus.css('color',"#12bb7a");
-                    }
-                })
+                btnToggle.prop("checked", false)
+                $('#title_confirm').text('Mở Tài Khoản')
+                $('#message_confirm').text('Bạn có chắc muốn mở khoá tài khoản này không ?')
             } else {
-                ChangeStatus(MaNguoiDung, false, (result) => {
-                    if (result) {
-                        txtStatus.text('Khoá');
-                        txtStatus.css('color',"red");
-                    }
-                })
+                btnToggle.prop("checked", true)
+                $('#title_confirm').text('Khoá Tài Khoản')
+                $('#message_confirm').text('Bạn có chắc muốn khoá tài khoản đang hoạt động này không ?')
             }
-        });
 
+            $('#btnXacNhan').on('click', () => {
+                if (status) {
+                    ChangeStatus(MaNguoiDung, true, (result) => {
+                        if (result) {
+                            btnToggle.prop("checked", true)
+                            txtStatus.text('Hoạt Động');
+                            txtStatus.css('color', "#12bb7a");
+
+                            $('#modalThongBao').modal()
+                            $('#title_notify').text('Mở Tài Khoản')
+                            $('#message_notify').html(
+                                '<i style="color: #00d45e; font-size: 38pt; margin-bottom: 10pt;" class="fa fa-check-circle-o"></i><h5 font-size: 20pt;">Tài Khoản Đã Được Phép Sử Dụng</h5>'
+                            )
+                        }
+                    })
+                } else {
+                    ChangeStatus(MaNguoiDung, false, (result) => {
+                        if (result) {
+                            btnToggle.prop("checked", false)
+                            txtStatus.text('Khoá');
+                            txtStatus.css('color', "red");
+
+                            $('#modalThongBao').modal()
+                            $('#title_notify').text('Khoá Tài Khoản')
+                            $('#message_notify').html(
+                                '<i style="color: #00d45e; font-size: 38pt; margin-bottom: 10pt;" class="fa fa-check-circle-o"></i><h5 font-size: 20pt;">Tài Khoản Đã Được Khoá</h5>'
+                            )
+                        }
+                    })
+                }
+            })
+        });
 
         function ChangeStatus(user_id, status, callback) {
             var data = {
@@ -275,6 +504,53 @@
             $.ajax({
                 url: "/home/usermanage/changestatus",
                 type: "PATCH",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    callback(res)
+                },
+            });
+        }
+
+
+        //Xoá Tài Khoản
+        $('#tbldsNguoiDung tbody').on('click', '.btnDeleteNguoiDung', (e) => {
+            var MaNguoiDung = $(e.target).closest('tr').show().find('.manguoidung').text();
+            var row = $(e.target).closest('tr').show()
+
+            $('#modalXacNhanXoa').modal()
+            $('#title_confirm_delete').text('Xoá Tài Khoản')
+            $('#message_confirm_delete').text('Bạn có chắc muốn xoá tài khoản này không ?')
+
+            $('#btnXacNhanXoa').on('click', () => {
+                DeleteUser(MaNguoiDung, (res) => {
+                    if (res) {
+                        row.remove()
+                        $('#modalThongBao').modal()
+                        $('#title_notify').text('Xoá Tài Khoản')
+                        $('#message_notify').html(
+                            '<i style="color: #00d45e; font-size: 38pt; margin-bottom: 10pt;" class="fa fa-check-circle-o"></i><h5 font-size: 20pt;">Tài Khoản Đã Được Xoá</h5>'
+                        )
+                    } else {
+                        $('#modalThongBao').modal()
+                        $('#title_notify').text('Xoá Tài Khoản')
+                        $('#message_notify').html(
+                            '<i style="color: red; font-size: 38pt; margin-bottom: 10pt;" class="fa fa-close"></i><h5 font-size: 20pt;">Không Thể Xoá Tài Khoản Này</h5>'
+                        )
+                    }
+                })
+            })
+        })
+
+        function DeleteUser(user_id, callback) {
+            var data = {
+                MaNguoiDung: user_id,
+            }
+
+            $.ajax({
+                url: "/home/usermanage/deleteuser",
+                type: "POST",
                 dataType: "json",
                 contentType: "application/json;charset=utf-8",
                 data: JSON.stringify(data),

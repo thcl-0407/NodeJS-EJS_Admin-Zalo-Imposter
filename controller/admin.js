@@ -54,7 +54,7 @@ async function GetAdminByName(name, callback) {
         const result = await request
         .input('TenTaiKhoan', mssql.sql.NVarChar, name)
         .query('SELECT * FROM Admin WHERE TenTaiKhoan = @TenTaiKhoan')
-        callback(result.recordsets)
+        callback(result.recordset)
     } catch (err) {
         console.error('DB error', err);
         callback(false)
@@ -74,24 +74,38 @@ async function GetNguoiDung(callback) {
     }
 }
 
-async function CreateUser(user ,callback){
+async function GetNguoiDungbySDT(sdt ,callback) {
     await poolConnection;
     try {
         const request = pool.request();
         const result = await request
-        .input('HoTen', mssql.sql.NVarChar, user.HoTen)
-        .input('SoDienThoai', mssql.sql.NVarChar, user.SoDienThoai)
-        .input('Password', mssql.sql.NVarChar, bcrypt.hashSync(user.MatKhau, bcrypt.genSaltSync(10)))
-        .query('INSERT INTO NguoiDung(HoTen, SoDienThoai, Password) VALUES(@HoTen, @SoDienThoai, @Password)')
-        if(result.rowsAffected[0] == 1){
-            callback(true)
-        }else{
-            callback(false)
-        }   
+        .input('SoDienThoai', mssql.sql.NVarChar, sdt)
+        .query('SELECT * FROM NguoiDung WHERE SoDienThoai = @SoDienThoai')
+        callback(result.recordset)
     } catch (err) {
         console.error('DB error', err);
         callback(false)
     }
+}
+
+async function CreateUser(user ,callback){
+    await poolConnection;
+            try {
+                const request = pool.request();
+                const result = await request
+                .input('HoTen', mssql.sql.NVarChar, user.HoTen)
+                .input('SoDienThoai', mssql.sql.NVarChar, user.SoDienThoai)
+                .input('Password', mssql.sql.NVarChar, bcrypt.hashSync(user.MatKhau, bcrypt.genSaltSync(10)))
+                .query('INSERT INTO NguoiDung(HoTen, SoDienThoai, Password) VALUES(@HoTen, @SoDienThoai, @Password)')
+                if(result.rowsAffected[0] == 1){
+                    callback(true)
+                }else{
+                    callback(false)
+                }   
+            } catch (err) {
+                console.error('DB error', err);
+                callback(false)
+            }
 }
 
 async function UpdateStatusUser(user ,callback){
@@ -113,4 +127,22 @@ async function UpdateStatusUser(user ,callback){
     }
 }
 
-module.exports = {CreateAdministrator, CreateUser, Login, GetAdminByName, GetNguoiDung, UpdateStatusUser}
+async function DeleteUser(user ,callback){
+    await poolConnection;
+    try {
+        const request = pool.request();
+        const result = await request
+        .input('MaNguoiDung', mssql.sql.NVarChar, user.MaNguoiDung)
+        .query('DELETE FROM dbo.NguoiDung WHERE MaNguoiDung = @MaNguoiDung')
+        if(result.rowsAffected[0] == 1){
+            callback(true)
+        }else{
+            callback(false)
+        }   
+    } catch (err) {
+        console.error('DB error', err);
+        callback(false)
+    }
+}
+
+module.exports = {CreateAdministrator, CreateUser, Login, GetAdminByName, GetNguoiDung, UpdateStatusUser, DeleteUser, GetNguoiDungbySDT}
