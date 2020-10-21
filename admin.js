@@ -212,6 +212,15 @@ app.post('/home/usermanage/deleteuser', (req, res)=>{
     }
 })
 
+//Admin Profile
+app.get('/home/adminchangepass', (req, res)=>{
+    if(req.isAuthenticated()){
+        res.render('adminchangepass')
+    }else{
+        res.redirect('/login')
+    }
+})
+
 //Đăng Xuất
 app.post('/logout', (req, res)=>{
     req.logOut()

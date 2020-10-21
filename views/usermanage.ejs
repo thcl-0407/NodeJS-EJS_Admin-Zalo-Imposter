@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -149,9 +150,22 @@
                     </li>
                 </ul>
 
-                <form method="POST" action="/logout" class="form-inline my-2 my-lg-0">
-                    <button type="submit" id="btnDangXuat">Đăng Xuất</button>
-                </form>
+                <div class="my-2 my-lg-0" style="padding-top: 0.5rem;">
+                    <ul class="nav-item" style="list-style-type: none;">
+                        <li class="dropdown">
+                            <button data-toggle="dropdown" style="padding: 0; border: none; background: none; outline: none;">
+                                <i class="fa fa-cog" style="color: #e2e2e2;"></i>
+                                <i class="fa fa-sort-down" style="color: #e2e2e2; margin-left: 3pt;"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" style="text-align: center;">
+                                <a class="dropdown-item" href="/home/adminchangepass">Đổi Mật Khẩu</a>
+                                <form method="POST" action="/logout" class="dropdown-item form-inline">
+                                    <button type="submit" id="btnDangXuat" style="color: #000; width: 100%;">Đăng Xuất</button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
 

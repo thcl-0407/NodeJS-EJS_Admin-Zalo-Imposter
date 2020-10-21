@@ -23,20 +23,15 @@
             margin: auto 0;
         }
 
+        body {
+            background: url("https://imposter-zalo.s3-ap-southeast-1.amazonaws.com/355321.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
         .container-fluid {
             padding: 0;
-        }
-
-        .container-fluid:nth-child(2) {
-            background: url('https://imposter-zalo.s3-ap-southeast-1.amazonaws.com/bg.png');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 100vh;
-        }
-
-        body {
-            background-color: #343A40;
         }
 
         #btnDangXuat {
@@ -46,60 +41,61 @@
             outline: none;
         }
 
-        .box-center {
+        .box-center{
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
             align-items: center;
-            height: 68vh;
-            padding-right: 12em;
+            height: 80vh;
         }
 
-        #txtSayHello01,
-        #txtSayHello03 {
-            color: #505050;
+        #frmDoiMatKhau{
+            display: block;
+            clear: both;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30pt;
+            border-radius: 2rem;
+            animation-name: scale;
+            animation-duration: 0.5s;
+        }
+
+        @keyframes scale {
+            0%{
+               transform: scale(0.3);
+            }
+        }
+
+        #etxtMKHienTai{
+            margin-top: 10pt;
+        }
+
+        #etxtMKHienTai, #etxtMKMoi, #etxtXacNhanMK{
+            width: 200pt;
+            margin-bottom: 10pt;
+            padding-top: 10pt;
+            padding-bottom: 10pt;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid gray;
             font-weight: 600;
-            font-size: 5em;
-            display: block;
-            animation-name: typing_01;
-            animation-duration: 1.5s;
-            overflow: hidden;
-            white-space: nowrap;
-            height: 100%;
+            background: none;
         }
 
-        #txtSayHello04 {
-            display: block;
-            animation-name: typing_02;
-            animation-duration: 1.5s;
-            overflow: hidden;
-            white-space: nowrap;
-            height: 100%;
-        }
-
-        #txtSayHello02 {
+        #etxtMKHienTai::placeholder, #etxtMKMoi::placeholder, #etxtXacNhanMK::placeholder{
             color: #505050;
-            font-size: 3em;
         }
 
-        @keyframes typing_01 {
-            0% {
-                width: 0%;
-            }
-
-            100% {
-                width: 100%;
-            }
+        #etxtXacNhanMK{
+            margin-bottom: 20pt;
         }
 
-        @keyframes typing_02 {
-            0% {
-                transform: translateY(120px);
-            }
-
-            100% {
-                width: 100%;
-                transform: translateY(0);
-            }
+        #btnXacNhan{
+            outline: none;
+            border: none;
+            padding: 6pt 15pt;
+            border-radius: 0.5rem;
+            background-color: #016aff;
+            color: #fff;
         }
     </style>
 </head>
@@ -124,8 +120,7 @@
                 <div class="my-2 my-lg-0" style="padding-top: 0.5rem;">
                     <ul class="nav-item" style="list-style-type: none;">
                         <li class="dropdown">
-                            <button data-toggle="dropdown"
-                                style="padding: 0; border: none; background: none; outline: none;">
+                            <button data-toggle="dropdown" style="padding: 0; border: none; background: none; outline: none;">
                                 <i class="fa fa-cog" style="color: #e2e2e2;"></i>
                                 <i class="fa fa-sort-down" style="color: #e2e2e2; margin-left: 3pt;"></i>
                             </button>
@@ -141,20 +136,19 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <div class="container">
             <div class="box-center">
-                <div style="text-align: end;">
-                    <span id="txtSayHello01">Welcome</span>
-                    <br />
-                    <span id="txtSayHello02">to</span>
-                    <br />
-                    <span id="txtSayHello03">Imposter System</span>
-                    <div>
-                        <h5 id="txtSayHello04" style="margin-top: 10pt; color: #505050;">Copyright by Imposter Team 2020
-                        </h5>
-                    </div>
-                </div>
-            </div>
+                <form id="frmDoiMatKhau">
+                    <h4 style="font-weight: bold;">Đổi Mật Khẩu</h4>
+                    <input type="password" placeholder="Mật Khẩu Hiện Tại" id="etxtMKHienTai">
+                    <br/>
+                    <input type="password" placeholder="Mật Khẩu Mới" id="etxtMKMoi">
+                    <br/>
+                    <input type="password" placeholder="Xác Nhận Mật Khẩu Mới" id="etxtXacNhanMK">
+                    <br/>
+                    <button type="button" id="btnXacNhan">Xác Nhận</button>
+                </form>
+            </div>  
         </div>
     </div>
 </body>
