@@ -47,6 +47,31 @@ async function Login(user, callback) {
     }
 }
 
+async function UpdatePassword(user ,callback){
+    GetAdminByName(user.TenTaiKhoan, async (res)=>{
+        if(res.length > 0){
+            await poolConnection;
+            try {
+                const request = pool.request();
+                const result = await request
+                .input('MaAdmin', mssql.sql.Int, res.MaAdmin)
+                .input('MatKhau', mssql.sql.NVarChar, bcrypt.hashSync(user.MatKhau, bcrypt.genSaltSync(10)))
+                .query('UPDATE dbo.Admin SET MatKhau = @MatKhau WHERE MaAdmin = @MaAdmin')
+                if(result.rowsAffected[0] == 1){
+                    callback(true)
+                }else{
+                    callback(false)
+                }   
+            } catch (err) {
+                console.error('DB error', err);
+                callback(false)
+            }
+        }else{
+            callback(false)
+        }
+    })
+}
+
 async function GetAdminByName(name, callback) {
     await poolConnection;
     try {
@@ -145,4 +170,4 @@ async function DeleteUser(user ,callback){
     }
 }
 
-module.exports = {CreateAdministrator, CreateUser, Login, GetAdminByName, GetNguoiDung, UpdateStatusUser, DeleteUser, GetNguoiDungbySDT}
+module.exports = {CreateAdministrator, CreateUser, Login, GetAdminByName, GetNguoiDung, UpdateStatusUser, DeleteUser, GetNguoiDungbySDT, UpdatePassword}

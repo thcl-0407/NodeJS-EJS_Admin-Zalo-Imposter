@@ -8,7 +8,7 @@ const app = express();
 const Port = 3001;
 
 app.use(cors())
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use(session(
@@ -20,26 +20,26 @@ app.use(session(
     }
 ))
 
-app.set('views','./views')
+app.set('views', './views')
 app.set('view engine', 'ejs')
 
 app.use(passport.initialize)
 app.use(passport.session)
 
 //Main Route
-app.get('/', (req, res)=>{
-    if(req.isAuthenticated()){
+app.get('/', (req, res) => {
+    if (req.isAuthenticated()) {
         res.redirect('home')
-    }else{
+    } else {
         res.redirect('login')
     }
 })
 
 //Đăng Nhập
-app.route('/login').get((req, res)=>{
-    if(req.isAuthenticated()){
+app.route('/login').get((req, res) => {
+    if (req.isAuthenticated()) {
         res.redirect('home')
-    }else{
+    } else {
         res.render('login')
     }
 }).post(passport.passport.authenticate(
@@ -52,39 +52,39 @@ app.route('/login').get((req, res)=>{
 
 
 //Render Trang Chủ
-app.get('/home', (req, res)=>{
-    if(req.isAuthenticated()){
+app.get('/home', (req, res) => {
+    if (req.isAuthenticated()) {
         res.render('home')
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 //Render Trang Quản Lý Người Dùng
-app.get('/home/usermanage', (req, res)=>{
-    if(req.isAuthenticated()){
+app.get('/home/usermanage', (req, res) => {
+    if (req.isAuthenticated()) {
         admin.GetNguoiDung(
-            (results)=>{
-                if(!results){
-                    res.render('usermanage',{
+            (results) => {
+                if (!results) {
+                    res.render('usermanage', {
                         users: null
-                    }) 
-                }else{
-                   results.forEach(result => {
-                        if(result.NgaySinh != null){
+                    })
+                } else {
+                    results.forEach(result => {
+                        if (result.NgaySinh != null) {
                             let date = JSON.stringify(result.NgaySinh)
-                            date = date.slice(1,11).split('-')
+                            date = date.slice(1, 11).split('-')
                             let ngay = date[2]
                             let thang = date[1]
                             let nam = date[0]
 
-                            result.NgaySinh = ngay + '-' + thang +'-' + nam
+                            result.NgaySinh = ngay + '-' + thang + '-' + nam
                         }
 
-                        if(result.GioiTinh !=null ){
-                            if(result.GioiTinh){
+                        if (result.GioiTinh != null) {
+                            if (result.GioiTinh) {
                                 result.GioiTinh = "Nam"
-                            }else{
+                            } else {
                                 result.GioiTinh = "Nữ"
                             }
                         }
@@ -93,99 +93,99 @@ app.get('/home/usermanage', (req, res)=>{
                     res.render('usermanage', {
                         users: results
                     })
-                }    
+                }
             }
         )
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 
 //Get Danh Sách Người Dùng Bằng Số Điện Thoại
-app.post('/home/usermanage/findphone', (req, res)=>{
-    if(req.isAuthenticated()){
+app.post('/home/usermanage/findphone', (req, res) => {
+    if (req.isAuthenticated()) {
         admin.GetNguoiDungbySDT(req.body.SoDienThoai,
-            (results)=>{
-                if(!results){
+            (results) => {
+                if (!results) {
                     res.send(false)
-                }else{
-                   results.forEach(result => {
-                        if(result.NgaySinh != null){
+                } else {
+                    results.forEach(result => {
+                        if (result.NgaySinh != null) {
                             let date = JSON.stringify(result.NgaySinh)
-                            date = date.slice(1,11).split('-')
+                            date = date.slice(1, 11).split('-')
                             let ngay = date[2]
                             let thang = date[1]
                             let nam = date[0]
 
-                            result.NgaySinh = ngay + '-' + thang +'-' + nam
+                            result.NgaySinh = ngay + '-' + thang + '-' + nam
                         }
 
-                        if(result.GioiTinh !=null ){
-                            if(result.GioiTinh){
+                        if (result.GioiTinh != null) {
+                            if (result.GioiTinh) {
                                 result.GioiTinh = "Nam"
-                            }else{
+                            } else {
                                 result.GioiTinh = "Nữ"
                             }
                         }
                     });
 
                     res.send(results)
-                }    
+                }
             }
         )
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 
 //Thêm Người Dùng
-app.post('/home/usermanage/adduser', (req, res)=>{
-    if(req.isAuthenticated()){
+app.post('/home/usermanage/adduser', (req, res) => {
+    if (req.isAuthenticated()) {
         var user = {
             HoTen: req.body.HoTen,
             SoDienThoai: req.body.SoDienThoai,
             MatKhau: req.body.MatKhau
         }
 
-        if(user != null){
-            admin.GetNguoiDungbySDT(user.SoDienThoai, (result)=>{
-                if(!result){
+        if (user != null) {
+            admin.GetNguoiDungbySDT(user.SoDienThoai, (result) => {
+                if (!result) {
                     res.send(false)
                 }
 
-                if(result != null){
-                    if(result.length == 0){
-                        admin.CreateUser(user, (status)=>{
-                            if(status){
+                if (result != null) {
+                    if (result.length == 0) {
+                        admin.CreateUser(user, (status) => {
+                            if (status) {
                                 res.send(true)
-                            }else{
+                            } else {
                                 res.send(false)
                             }
                         })
-                    }else{
+                    } else {
                         res.send(false)
                     }
                 }
-            })    
+            })
         }
     }
 })
 
 //Cập Nhật Trạng Thái
-app.patch('/home/usermanage/changestatus', (req, res)=>{
-    if(req.isAuthenticated()){
+app.patch('/home/usermanage/changestatus', (req, res) => {
+    if (req.isAuthenticated()) {
         var user = {
             MaNguoiDung: req.body.MaNguoiDung,
             Status: req.body.Status
         }
 
-        if(user != null){
-            admin.UpdateStatusUser(user, (status)=>{
-                if(status){
+        if (user != null) {
+            admin.UpdateStatusUser(user, (status) => {
+                if (status) {
                     res.send(true)
-                }else{
+                } else {
                     res.send(false)
                 }
             })
@@ -194,17 +194,17 @@ app.patch('/home/usermanage/changestatus', (req, res)=>{
 })
 
 //Xoá Người Dùng
-app.post('/home/usermanage/deleteuser', (req, res)=>{
-    if(req.isAuthenticated()){
+app.post('/home/usermanage/deleteuser', (req, res) => {
+    if (req.isAuthenticated()) {
         var user = {
             MaNguoiDung: req.body.MaNguoiDung
         }
 
-        if(user != null){
-            admin.DeleteUser(user, (status)=>{
-                if(status){
+        if (user != null) {
+            admin.DeleteUser(user, (status) => {
+                if (status) {
                     res.send(true)
-                }else{
+                } else {
                     res.send(false)
                 }
             })
@@ -212,17 +212,37 @@ app.post('/home/usermanage/deleteuser', (req, res)=>{
     }
 })
 
-//Admin Profile
-app.get('/home/adminchangepass', (req, res)=>{
-    if(req.isAuthenticated()){
+//Đổi Mật Khẩu Admin
+app.get('/home/adminchangepass', (req, res) => {
+    if (req.isAuthenticated()) {
         res.render('adminchangepass')
-    }else{
+    } else {
+        res.redirect('/login')
+    }
+})
+app.post('/home/adminchangepass', (req, res) => {
+    if (req.isAuthenticated()) {
+        let user = {
+            TenTaiKhoan: req.session.passport.user,
+            MatKhau: req.body.MatKhau
+        }
+
+        admin.UpdatePassword(user, (result) => {
+            if (result) {
+                req.logOut()
+                res.clearCookie('session_login')
+                res.redirect('/')
+            }else{
+                res.send("Error")
+            }
+        })
+    } else {
         res.redirect('/login')
     }
 })
 
 //Đăng Xuất
-app.post('/logout', (req, res)=>{
+app.post('/logout', (req, res) => {
     req.logOut()
     res.clearCookie('session_login')
     res.redirect('/')
@@ -230,6 +250,6 @@ app.post('/logout', (req, res)=>{
 
 passport.CheckPassport()
 
-app.listen(Port, ()=>{
+app.listen(Port, () => {
     console.log("Running on Port " + Port);
 })
