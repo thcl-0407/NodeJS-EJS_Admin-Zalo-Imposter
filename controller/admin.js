@@ -50,20 +50,26 @@ async function Login(user, callback) {
 async function UpdatePassword(user ,callback){
     GetAdminByName(user.TenTaiKhoan, async (res)=>{
         if(res.length > 0){
-            await poolConnection;
-            try {
-                const request = pool.request();
-                const result = await request
-                .input('MaAdmin', mssql.sql.Int, res.MaAdmin)
-                .input('MatKhau', mssql.sql.NVarChar, bcrypt.hashSync(user.MatKhau, bcrypt.genSaltSync(10)))
-                .query('UPDATE dbo.Admin SET MatKhau = @MatKhau WHERE MaAdmin = @MaAdmin')
-                if(result.rowsAffected[0] == 1){
-                    callback(true)
-                }else{
+            const isMatch = bcrypt.compareSync(user.MatKhauCu,  res[0].MatKhau);
+            
+            if(isMatch){
+                await poolConnection;
+                try {
+                    const request = pool.request();
+                    const result = await request
+                    .input('MaAdmin', mssql.sql.Int, res[0].MaAdmin)
+                    .input('MatKhau', mssql.sql.NVarChar, bcrypt.hashSync(user.MatKhauMoi, bcrypt.genSaltSync(10)))
+                    .query('UPDATE dbo.Admin SET MatKhau = @MatKhau WHERE MaAdmin = @MaAdmin')
+                    if(result.rowsAffected[0] == 1){
+                        callback(true)
+                    }else{
+                        callback(false)
+                    }   
+                } catch (err) {
+                    console.error('DB error', err);
                     callback(false)
-                }   
-            } catch (err) {
-                console.error('DB error', err);
+                }
+            }else{
                 callback(false)
             }
         }else{

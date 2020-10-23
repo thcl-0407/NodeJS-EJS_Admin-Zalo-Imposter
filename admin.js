@@ -222,18 +222,18 @@ app.get('/home/adminchangepass', (req, res) => {
 })
 app.post('/home/adminchangepass', (req, res) => {
     if (req.isAuthenticated()) {
-        let user = {
+        var user = {
             TenTaiKhoan: req.session.passport.user,
-            MatKhau: req.body.MatKhau
+            MatKhauCu: req.body.MatKhauCu,
+            MatKhauMoi: req.body.MatKhauMoi
         }
-
+        
         admin.UpdatePassword(user, (result) => {
             if (result) {
-                req.logOut()
-                res.clearCookie('session_login')
-                res.redirect('/')
+                console.log(Date.now() + ": Mật Khẩu Admin Đã Thay Đổi")
+                res.send(true)
             }else{
-                res.send("Error")
+                res.send(false)
             }
         })
     } else {

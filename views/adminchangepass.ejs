@@ -8,15 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-    </script>
+        </script>
     <style>
         * {
             padding: 0;
@@ -41,14 +39,14 @@
             outline: none;
         }
 
-        .box-center{
+        .box-center {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 80vh;
         }
 
-        #frmDoiMatKhau{
+        #frmDoiMatKhau {
             display: block;
             clear: both;
             text-align: center;
@@ -60,20 +58,22 @@
         }
 
         @keyframes scale {
-            0%{
-               transform: scale(0.3);
+            0% {
+                transform: scale(0.3);
             }
         }
 
-        #etxtMKHienTai{
+        #etxtMKHienTai {
             margin-top: 10pt;
         }
 
-        #etxtMKHienTai, #etxtMKMoi, #etxtXacNhanMK{
+        #etxtMKHienTai,
+        #etxtMKMoi,
+        #etxtXacNhanMK {
             width: 200pt;
-            margin-bottom: 10pt;
+            margin-bottom: 8pt;
             padding-top: 10pt;
-            padding-bottom: 10pt;
+            padding-bottom: 3pt;
             border: none;
             outline: none;
             border-bottom: 1px solid gray;
@@ -81,15 +81,17 @@
             background: none;
         }
 
-        #etxtMKHienTai::placeholder, #etxtMKMoi::placeholder, #etxtXacNhanMK::placeholder{
+        #etxtMKHienTai::placeholder,
+        #etxtMKMoi::placeholder,
+        #etxtXacNhanMK::placeholder {
             color: #505050;
         }
 
-        #etxtXacNhanMK{
+        #etxtXacNhanMK {
             margin-bottom: 20pt;
         }
 
-        #btnXacNhan{
+        #btnXacNhan {
             outline: none;
             border: none;
             padding: 6pt 15pt;
@@ -141,17 +143,77 @@
             <div class="box-center">
                 <form id="frmDoiMatKhau">
                     <h4 style="font-weight: bold;">Đổi Mật Khẩu</h4>
-                    <input type="password" placeholder="Mật Khẩu Hiện Tại" id="etxtMKHienTai">
-                    <br/>
-                    <input type="password" placeholder="Mật Khẩu Mới" id="etxtMKMoi">
-                    <br/>
-                    <input type="password" placeholder="Xác Nhận Mật Khẩu Mới" id="etxtXacNhanMK">
-                    <br/>
-                    <button type="button" id="btnXacNhan">Xác Nhận</button>
+                    <input type="password" placeholder="Mật Khẩu Hiện Tại" id="etxtMKHienTai" required minlength="6">
+                    <br />
+                    <input type="password" placeholder="Mật Khẩu Mới" id="etxtMKMoi" required minlength="6">
+                    <br />
+                    <input type="password" placeholder="Xác Nhận Mật Khẩu Mới" id="etxtXacNhanMK" required
+                        minlength="6">
+                    <br />
+                    <button type="submit" id="btnXacNhan">Xác Nhận</button>
                 </form>
-            </div>  
+            </div>
         </div>
     </div>
+    <script>
+        $('#btnXacNhan').on('click', () => {
+            $('#frmDoiMatKhau').on('submit', (e) => {
+                e.preventDefault()
+            })
+
+            var matKhauHienTai = $('#etxtMKHienTai').val().trim()
+            var matKhauMoi = $('#etxtMKMoi').val().trim()
+            var xacNhanMatKhau = $('#etxtXacNhanMK').val().trim()
+
+            if (matKhauHienTai.length < 6) {
+                return
+            }
+
+            if (matKhauMoi.length < 6) {
+                return
+            }
+
+            if (xacNhanMatKhau.length < 6) {
+                return
+            }
+
+            if (matKhauMoi != xacNhanMatKhau) {
+                alert("Xác Nhận Mật Khẩu Sai")
+                return
+            }
+
+            var data = {
+                MatKhauCu: matKhauHienTai,
+                MatKhauMoi: matKhauMoi
+            }
+
+            $.ajax({
+                url: "/home/adminchangepass",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (!res) {
+                        alert("Đổi Mật Khẩu Thất Bại")
+                    } else {
+                        alert("Đổi Mật Khẩu Thành Công")
+                        
+                        //Logout
+                        $.ajax({
+                            url: "/logout",
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json;charset=utf-8",
+                            success: function(){}
+                        })
+                        
+                        window.location = '/login'
+                    }
+                },
+            });
+        })
+    </script>
 </body>
 
 </html>
