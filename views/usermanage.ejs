@@ -286,7 +286,7 @@
                 <form method="POST" id="frmThemNguoiDung">
                     <i class="fa fa-user"></i><span>&nbsp;&nbsp;</span>
                     <input type="text" placeholder="Nhập Họ Tên Người Dùng" name="fullname" id="etxtHoTen" required
-                        minlength="3" pattern="^(\s?[A-Za-z]+\s?)+$">
+                        minlength="3" pattern="^(\s?[A-Z][a-z]+\s?)+$">
                     <br />
                     <i class="fa fa-phone"></i><span>&nbsp;&nbsp;</span>
                     <input type="tel" placeholder="Nhập Số Điện Thoại" name="phone" pattern="^0[1-9][0-9]{8}$"
@@ -481,13 +481,13 @@
             })
 
             let regex_checkphone = new RegExp('^0[1-9][0-9]{8}$');
-            let regex_checkname = new RegExp('^(\s?[A-Za-z]+\s?)+$');
+            let regex_checkname = new RegExp('^(\\s?[A-Z][a-z]+\\s?)+$');
 
             var HoTen = $('#etxtHoTen').val()
             var SoDienThoai = $('#etxtSDT').val()
             var MatKhau = $('#etxtMatKhau').val()
 
-            if (HoTen.length < 3 || !regex_checkname.test(HoTen.trim())) {
+            if (HoTen.length < 3 || !regex_checkname.test(HoTen)){
                 return;
             }
             if (!regex_checkphone.test(SoDienThoai)) {
