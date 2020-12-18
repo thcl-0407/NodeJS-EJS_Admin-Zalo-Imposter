@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const passport = require('./passport.js')
 const app = express();
-const Port = 80;
+const Port = 3001;
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
